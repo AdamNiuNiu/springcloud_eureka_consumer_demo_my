@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF">
+    <Properties>
+        <property name="basePath">./logs</property>
+<!--        <property name="serviceName">elk_demo_project</property>-->
+<!--        <property name="kafka.host">192.168.106.129:9092</property>-->
+<!--        <property name="kafka.topic">topic-test2</property>-->
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5p|%t|%c.%M() %L|%m%n" />
+        </Console>
+        <RollingRandomAccessFile name="AccessLogFile"
+                                 fileName="${basePath}/access/access.log" filePattern="${basePath}/access/access_%d{yyyyMMdd}.log.gz">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%-5p][%t]%m%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1024 MB" />
+                <TimeBasedTriggeringPolicy interval="1"
+                                           modulate="true" />
+            </Policies>
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="InterfaceLogFile"
+                                 fileName="${basePath}/interface/interface.log" filePattern="${basePath}/interface/interface_%d{yyyyMMdd}.log.gz">
+            <PatternLayout pattern="%m%n" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1024 MB" />
+                <TimeBasedTriggeringPolicy interval="1"
+                                           modulate="true" />
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="RunningLogFile"
+                                 fileName="${basePath}/run/runtime.log" filePattern="${basePath}/run/runtime_%i.log.gz">
+            <PatternLayout pattern="%m%n" />
+            <SizeBasedTriggeringPolicy size="200 MB" />
+            <TimeBasedTriggeringPolicy interval="50"
+                                       modulate="true" />
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="AlarmLogFile"
+                                 fileName="${basePath}/alarm/alarm.log" filePattern="${basePath}/alarm/alarm_%i.log.gz"> <!-- 日志目录和名称 --><!-- 压缩方式和名称 -->
+            <PatternLayout pattern="%m%n" /> <!-- 日志格式 -->
+            <SizeBasedTriggeringPolicy size="200 MB" /> <!-- 文件达到200mb压缩 -->
+            <TimeBasedTriggeringPolicy interval="50"
+                                       modulate="true" /><!-- 最多生成50个文件 -->
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="App_Log"
+                                 fileName="${basePath}/app.log" filePattern="${basePath}/app_%i.log.gz"><!-- 日志名称和压缩名称 -->
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}|%-5p|%t|%t|%c.%M() %L|%m%n" /> <!-- 日志格式 -->
+            <SizeBasedTriggeringPolicy size="200 MB" /> <!-- 文件达到多大自动压缩 -->
+            <DefaultRolloverStrategy max="50" /> <!-- 最多生成几个压缩文件 -->
+        </RollingRandomAccessFile>
+
+        <!-- kafka日志上传到elk日志服务 -->
+<!--        <Kafka name="kafka_Log" topic="${kafka.topic}">-->
+<!--            &lt;!&ndash; kafka集群 &ndash;&gt;-->
+<!--            <property name="bootstrap.servers" value="${kafka.host}" />-->
+<!--            <property name="acks" value="1" />-->
+<!--            <property name="retries" value="0" />-->
+<!--            <property name="batch.size" value="16384" />-->
+<!--            <property name="linger.ms" value="1" />-->
+<!--            <property name="buffer.memory" value="33554432" />-->
+<!--            &lt;!&ndash; testservice:为服务名,字母必须小写, v1:服务版本号，字母要小写,develop:日志类型，小写 &ndash;&gt;-->
+<!--            <PatternLayout-->
+<!--                    pattern="${serviceName}|;v0.0.1.20190813|;develop|;%d{yyyy-MM-dd HH:mm:ss.SSS}|;%-5p|;%t|;%c.%M() %L|;%m%n|;" />-->
+<!--        </Kafka>-->
+
+    </Appenders>
+
+    <Loggers>
+        <!--		 includeLocation要加上，不然打印不出日志发生的行数 -->
+        <AsyncRoot level="INFO" additivity="true" includeLocation="true">
+            <appender-ref ref="App_Log" />
+            <appender-ref ref="Console" />
+        </AsyncRoot>
+
+        <AsyncLogger name="Access_Log" level="DEBUG" additivity="true">
+            <AppenderRef ref="AccessLogFile" />
+        </AsyncLogger>
+
+        <AsyncLogger name="Interface_Log" level="DEBUG"
+                     additivity="true">
+            <AppenderRef ref="InterfaceLogFile" />
+        </AsyncLogger>
+
+    </Loggers>
+</Configuration>
