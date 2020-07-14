@@ -1,4 +1,4 @@
-package com.adam.eureka_consumer_demo_my.entity;
+package com.adam.demo.entity;
 
 
 import lombok.Data;

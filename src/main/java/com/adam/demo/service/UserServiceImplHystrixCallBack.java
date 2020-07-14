@@ -1,6 +1,6 @@
-package com.adam.eureka_consumer_demo_my.service;
+package com.adam.demo.service;
 
-import com.adam.eureka_consumer_demo_my.entity.User;
+import com.adam.demo.entity.User;
 import org.springframework.stereotype.Component;
 
 @Component

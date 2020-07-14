@@ -1,4 +1,4 @@
-package com.adam.eureka_consumer_demo_my;
+package com.adam;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

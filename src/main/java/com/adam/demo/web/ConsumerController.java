@@ -1,8 +1,7 @@
-package com.adam.eureka_consumer_demo_my.web;
+package com.adam.demo.web;
 
-import com.adam.eureka_consumer_demo_my.entity.User;
-import com.adam.eureka_consumer_demo_my.service.UserService;
-import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.adam.demo.entity.User;
+import com.adam.demo.service.UserService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
